@@ -76,7 +76,8 @@ module DynamicAttributes
     
     # Creates an accessor when a non-existing setter with the configured dynamic attribute prefix is detected. Calls super otherwise.
     def method_missing(method, *arguments, &block) 
-      (method.to_s =~ /#{self.dynamic_attribute_prefix}(.+)=/) ? set_dynamic_attribute(self.dynamic_attribute_prefix + $1, *arguments.first) : super
+      value = arguments.first
+      (method.to_s =~ /#{self.dynamic_attribute_prefix}(.+)=/) ? set_dynamic_attribute(self.dynamic_attribute_prefix + $1, value) : super
     end     
     
     # Returns the dynamic attributes that will be persisted to the serialization column. This array can
