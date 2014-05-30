@@ -62,7 +62,9 @@ module DynamicAttributes
     
     # After find, populate the dynamic attributes and create accessors
     def populate_dynamic_attributes
-      (read_attribute(self.dynamic_attribute_field) || {}).each {|att, value| set_dynamic_attribute(att, value); self.destroy_dynamic_attribute_for_nil = false if value.nil? }
+      attrs = read_attribute(self.dynamic_attribute_field)
+      attrs = {} if !attrs || !attrs.is_a?(Hash)
+      attrs.each {|att, value| set_dynamic_attribute(att, value); self.destroy_dynamic_attribute_for_nil = false if value.nil? }
     end
     
     # Explicitly define after_find for Rails 2.x
